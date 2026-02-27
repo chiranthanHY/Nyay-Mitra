@@ -1,0 +1,179 @@
+{
+    "lawyers": [
+        {
+            "id": 1,
+            "name": "Adv. Kavitha Reddy",
+            "specialty": "Family Law, Domestic Violence, Women's Rights",
+            "district": "Bengaluru Urban",
+            "area": "Jayanagar",
+            "phone": "+91-80-2659-1234",
+            "email": "kavitha.reddy@legalaid.in",
+            "languages": [
+                "Kannada",
+                "English",
+                "Hindi"
+            ],
+            "is_ngo": false,
+            "fee_type": "sliding_scale",
+            "rating": 4.8
+        },
+        {
+            "id": 2,
+            "name": "Adv. Mohammed Farhan",
+            "specialty": "Property Law, Rent Disputes, Tenant Rights",
+            "district": "Bengaluru Urban",
+            "area": "Shivajinagar",
+            "phone": "+91-80-2225-5678",
+            "email": "farhan.law@gmail.com",
+            "languages": [
+                "Kannada",
+                "Urdu",
+                "English"
+            ],
+            "is_ngo": false,
+            "fee_type": "consultation",
+            "rating": 4.6
+        },
+        {
+            "id": 3,
+            "name": "Samara Legal Aid Foundation",
+            "specialty": "Labour Law, Wage Disputes, Migrant Workers",
+            "district": "Bengaluru Urban",
+            "area": "Peenya",
+            "phone": "+91-80-2839-9012",
+            "email": "help@samara-legal.org",
+            "languages": [
+                "Kannada",
+                "Telugu",
+                "Tamil",
+                "Hindi",
+                "English"
+            ],
+            "is_ngo": true,
+            "fee_type": "free",
+            "rating": 4.9
+        },
+        {
+            "id": 4,
+            "name": "Adv. Priya Nair",
+            "specialty": "Criminal Law, Bail, FIR Registration",
+            "district": "Bengaluru Urban",
+            "area": "MG Road",
+            "phone": "+91-80-4112-3456",
+            "email": "priya.nair.adv@outlook.com",
+            "languages": [
+                "Malayalam",
+                "Kannada",
+                "English"
+            ],
+            "is_ngo": false,
+            "fee_type": "fixed",
+            "rating": 4.7
+        },
+        {
+            "id": 5,
+            "name": "Karnataka Legal Services Authority (KLSA)",
+            "specialty": "All Legal Matters — Free for SC/ST, Women, Disabled, Below Poverty Line",
+            "district": "Bengaluru Urban",
+            "area": "City Civil Court Complex, Shivajinagar",
+            "phone": "+91-80-2235-0202",
+            "email": "kslsa@nic.in",
+            "languages": [
+                "Kannada",
+                "English",
+                "Hindi",
+                "Telugu",
+                "Tamil",
+                "Urdu"
+            ],
+            "is_ngo": true,
+            "fee_type": "free",
+            "rating": 4.5
+        },
+        {
+            "id": 6,
+            "name": "Adv. Rajan Shetty",
+            "specialty": "Consumer Protection, E-Commerce Fraud, RERA",
+            "district": "Bengaluru Urban",
+            "area": "Whitefield",
+            "phone": "+91-80-6711-7890",
+            "email": "rajan.shetty.law@gmail.com",
+            "languages": [
+                "Kannada",
+                "Konkani",
+                "English"
+            ],
+            "is_ngo": false,
+            "fee_type": "consultation",
+            "rating": 4.6
+        },
+        {
+            "id": 7,
+            "name": "Vanitha Sahaya Kendra",
+            "specialty": "Domestic Violence, Divorce, Child Custody, Women Safety",
+            "district": "Bengaluru Urban",
+            "area": "Rajajinagar",
+            "phone": "+91-80-2337-4455",
+            "email": "vsk@dsw.karnataka.gov.in",
+            "languages": [
+                "Kannada",
+                "Hindi",
+                "English"
+            ],
+            "is_ngo": true,
+            "fee_type": "free",
+            "rating": 4.8
+        },
+        {
+            "id": 8,
+            "name": "Adv. Suresh Kumar G.",
+            "specialty": "Cyber Crime, IT Law, Online Fraud, Social Media Harassment",
+            "district": "Bengaluru Urban",
+            "area": "Koramangala",
+            "phone": "+91-98441-23456",
+            "email": "suresh.cyberlaw@gmail.com",
+            "languages": [
+                "Kannada",
+                "Telugu",
+                "English"
+            ],
+            "is_ngo": false,
+            "fee_type": "fixed",
+            "rating": 4.7
+        },
+        {
+            "id": 9,
+            "name": "Adv. Ananya Krishnamurthy",
+            "specialty": "Employment Law, Wrongful Termination, Sexual Harassment at Workplace (POSH)",
+            "district": "Bengaluru Urban",
+            "area": "Indiranagar",
+            "phone": "+91-80-2521-6789",
+            "email": "ananya.k.law@legalfirm.in",
+            "languages": [
+                "Kannada",
+                "Tamil",
+                "English"
+            ],
+            "is_ngo": false,
+            "fee_type": "sliding_scale",
+            "rating": 4.9
+        },
+        {
+            "id": 10,
+            "name": "Jeevana Human Rights Organization",
+            "specialty": "Human Rights, Police Atrocities, Dalit Rights, Child Labour",
+            "district": "Bengaluru Urban",
+            "area": "Hebbal",
+            "phone": "+91-80-2364-0011",
+            "email": "contact@jeevana-hr.org",
+            "languages": [
+                "Kannada",
+                "Hindi",
+                "English"
+            ],
+            "is_ngo": true,
+            "fee_type": "free",
+            "rating": 4.6
+        }
+    ]
+}
