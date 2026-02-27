@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Send, MapPin, Scale, Shield, MessageCircle, Zap } from "lucide-react";
+import RightsCardGenerator from "@/components/RightsCardGenerator";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -69,6 +70,7 @@ export default function ChatInterface() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [activeCategory, setActiveCategory] = useState<string | null>(null);
+    const [showRightsCard, setShowRightsCard] = useState(false);
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -238,6 +240,21 @@ export default function ChatInterface() {
 
                 <div className="sidebar-divider" />
 
+                {/* Know Your Rights */}
+                <button
+                    id="open-rights-card"
+                    className="rights-card-sidebar-btn"
+                    onClick={() => setShowRightsCard(true)}
+                >
+                    <Shield size={16} />
+                    <div>
+                        <div className="rights-btn-title">🛡️ Know Your Rights</div>
+                        <div className="rights-btn-desc">Generate a shareable rights card</div>
+                    </div>
+                </button>
+
+                <div className="sidebar-divider" />
+
                 {/* Emergency Card */}
                 <div className="info-card">
                     <div className="info-card-title">
@@ -298,6 +315,7 @@ export default function ChatInterface() {
                                     { icon: <MapPin size={13} />, text: "Bengaluru Focus" },
                                     { icon: <Shield size={13} />, text: "Free & Confidential" },
                                     { icon: <Zap size={13} />, text: "AI Powered" },
+                                    { icon: <Shield size={13} />, text: "Know Your Rights" },
                                 ].map((f, i) => (
                                     <div key={i} className="feature-chip">
                                         {f.icon} {f.text}
@@ -317,6 +335,14 @@ export default function ChatInterface() {
                                     </button>
                                 ))}
                             </div>
+                            <button
+                                id="welcome-rights-btn"
+                                className="welcome-rights-btn"
+                                onClick={() => setShowRightsCard(true)}
+                            >
+                                <Shield size={16} />
+                                🛡️ Generate a "Know Your Rights" Card
+                            </button>
                         </div>
                     )}
 
@@ -411,6 +437,11 @@ export default function ChatInterface() {
                     </p>
                 </div>
             </main>
+            <RightsCardGenerator
+                isOpen={showRightsCard}
+                onClose={() => setShowRightsCard(false)}
+                location={location}
+            />
         </div>
     );
 }

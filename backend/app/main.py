@@ -11,6 +11,7 @@ from fastapi.responses import JSONResponse
 
 from app.config import get_settings
 from app.routes.whatsapp import router as whatsapp_router
+from app.routes.rights_card_routes import router as rights_card_router
 
 # ── Logging setup ─────────────────────────────────────────────────────────────
 def setup_logging(level: str = "INFO") -> None:
@@ -76,6 +77,7 @@ app.add_middleware(
 
 # ── Routers ───────────────────────────────────────────────────────────────────
 app.include_router(whatsapp_router, prefix="/api", tags=["WhatsApp"])
+app.include_router(rights_card_router, prefix="/api", tags=["Rights Card"])
 
 
 # ── Root endpoint ─────────────────────────────────────────────────────────────
