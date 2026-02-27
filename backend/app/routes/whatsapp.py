@@ -205,7 +205,7 @@ async def _process_message(
     # ── Document/Image ────────────────────────────────────────────────────────
     if num_media > 0 and media_content_type and media_content_type.startswith("image/"):
         logger.info("Processing document image from %s", sender)
-        extraction = extract_document_text(image_url=media_url or "")
+        extraction = await extract_document_text(image_url=media_url or "")
         extracted_text = extraction["extracted_text"]
         doc_type = extraction["document_type"]
 
