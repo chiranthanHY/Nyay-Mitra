@@ -4,6 +4,13 @@ In production: use boto3 + Amazon Textract AnalyzeDocument.
 """
 import logging
 import random
+from typing import Optional
+
+import boto3
+import httpx
+from botocore.exceptions import ClientError, NoCredentialsError
+
+from app.config import get_settings
 
 logger = logging.getLogger(__name__)
 
@@ -61,39 +68,89 @@ _DEMO_EXTRACTIONS = [
 ]
 
 
-def extract_document_text(image_url: str, document_type: str = "auto") -> dict:
+async def _download_image(url: str, auth: Optional[tuple] = None) -> Optional[bytes]:
+    """Download image payload from a URL."""
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url, auth=auth, timeout=15.0)
+            response.raise_for_status()
+            return response.content
+    except Exception as e:
+        logger.error("Failed to download image from %s: %s", url, e)
+        return None
+
+def _extract_text_from_blocks(blocks: list) -> str:
+    """Extract plain text from Textract blocks."""
+    lines = []
+    for block in blocks:
+        if block["BlockType"] == "LINE":
+            lines.append(block.get("Text", ""))
+    return "\n".join(lines)
+
+
+async def extract_document_text(image_url: str, document_type: str = "auto") -> dict:
     """
-    Simulated OCR extraction from a document image.
-
-    In production, this would:
-    1. Download image from Twilio MediaUrl
-    2. Upload to S3
-    3. Call boto3 textract_client.analyze_document(...)
-    4. Parse blocks and return key-value pairs + raw text
-
-    Args:
-        image_url: URL of the document image (from Twilio MediaUrl0)
-        document_type: 'auto', 'rent_agreement', 'fir', 'notice', etc.
-
-    Returns:
-        dict with 'extracted_text', 'document_type', 'confidence', 'is_mock'
+    Extract text from a document image using AWS Textract.
+    If AWS depends are not configured or downloading fails, falls back to mock extractions.
     """
-    logger.info("Mock Textract called for image URL: %s", image_url)
+    settings = get_settings()
+    logger.info("Textract called for image URL: %s", image_url)
 
-    # In production: real boto3 call would go here
-    # textract_client = boto3.client("textract", region_name=settings.aws_region)
-    # with open(image_path, "rb") as f:
-    #     response = textract_client.analyze_document(
-    #         Document={"Bytes": f.read()},
-    #         FeatureTypes=["FORMS", "TABLES"]
-    #     )
+    if not settings.aws_configured:
+        logger.warning("AWS credentials not configured — returning mock OCR response")
+        return _mock_textract_response()
 
+    # Twilio Media URLs require Basic Auth using Account SID and Auth Token to download
+    auth = None
+    if settings.twilio_configured and "twilio.com" in image_url:
+        auth = (settings.twilio_account_sid, settings.twilio_auth_token)
+
+    image_bytes = await _download_image(image_url, auth=auth)
+    
+    if not image_bytes:
+         logger.warning("Could not download image, falling back to mock OCR")
+         return _mock_textract_response()
+
+    try:
+        client = boto3.client(
+            "textract",
+            region_name=settings.aws_region,
+            aws_access_key_id=settings.aws_access_key_id,
+            aws_secret_access_key=settings.aws_secret_access_key,
+        )
+
+        logger.info("Calling Textract analyze_document")
+        response = client.analyze_document(
+            Document={"Bytes": image_bytes},
+            FeatureTypes=["FORMS", "TABLES"] # Requesting forms and tables support
+        )
+
+        extracted_text = _extract_text_from_blocks(response.get("Blocks", []))
+        
+        return {
+            "extracted_text": extracted_text,
+            "document_type": document_type,
+            "confidence": 0.95, 
+            "is_mock": False,
+        }
+
+    except NoCredentialsError:
+        logger.error("No AWS credentials available for Textract")
+        return _mock_textract_response()
+    except ClientError as e:
+        error_code = e.response["Error"]["Code"]
+        logger.error("Textract ClientError [%s]: %s", error_code, e)
+        return _mock_textract_response()
+    except Exception as e:
+        logger.exception("Unexpected error calling Textract: %s", e)
+        return _mock_textract_response()
+
+def _mock_textract_response() -> dict:
     sample = random.choice(_DEMO_EXTRACTIONS)
-
     return {
         "extracted_text": sample["extracted_text"],
         "document_type": sample["document_type"],
         "confidence": 0.87,
         "is_mock": True,
-        "note": "⚠️ Document OCR is simulated. Real AWS Textract integration pending.",
+        "note": "⚠️ Document OCR is simulated due to failure or missing credentials.",
     }
