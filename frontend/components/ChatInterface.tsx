@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Send, MapPin, Scale, Shield, MessageCircle, Zap } from "lucide-react";
 import RightsCardGenerator from "@/components/RightsCardGenerator";
+import { GradientAIChatInput } from "@/components/ui/gradient-ai-chat-input";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -401,36 +402,55 @@ export default function ChatInterface() {
 
                 {/* Input Area */}
                 <div className="input-area">
-                    <div className="input-wrapper">
-                        <input
-                            id="location-input"
-                            className="location-input-small"
-                            value={location}
-                            onChange={(e) => setLocation(e.target.value)}
-                            placeholder="Your location..."
-                            title="Enter your city or area for local legal advice"
-                        />
-                        <textarea
-                            ref={textareaRef}
-                            id="message-input"
-                            className="message-input"
-                            value={inputValue}
-                            onChange={(e) => setInputValue(e.target.value)}
-                            onKeyDown={handleKeyDown}
-                            placeholder="Describe your legal issue... (e.g. 'My landlord is threatening me')"
-                            disabled={isLoading}
-                            rows={1}
-                        />
-                        <button
-                            id="send-button"
-                            className="send-btn"
-                            onClick={() => sendMessage(inputValue)}
-                            disabled={isLoading || !inputValue.trim()}
-                            aria-label="Send message"
-                        >
-                            <Send size={18} />
-                        </button>
-                    </div>
+                    <GradientAIChatInput
+                        placeholder="Describe your legal issue... (e.g. 'My landlord is threatening me')"
+                        onSend={(msg) => sendMessage(msg)}
+                        disabled={isLoading}
+                        dropdownOptions={CATEGORIES.map(cat => ({
+                            id: cat.id,
+                            label: `${cat.icon} ${cat.label}`,
+                            value: cat.id,
+                        }))}
+                        onOptionSelect={(option) => {
+                            setActiveCategory(option.value);
+                        }}
+                        mainGradient={{
+                            light: {
+                                topLeft: "#a855f7",
+                                topRight: "#ec4899",
+                                bottomRight: "#f97316",
+                                bottomLeft: "#06b6d4",
+                            },
+                            dark: {
+                                topLeft: "#7c3aed",
+                                topRight: "#db2777",
+                                bottomRight: "#ea580c",
+                                bottomLeft: "#0891b2",
+                            },
+                        }}
+                        outerGradient={{
+                            light: {
+                                topLeft: "#8b5cf6",
+                                topRight: "#d946ef",
+                                bottomRight: "#f59e0b",
+                                bottomLeft: "#14b8a6",
+                            },
+                            dark: {
+                                topLeft: "#6d28d9",
+                                topRight: "#a21caf",
+                                bottomRight: "#d97706",
+                                bottomLeft: "#0d9488",
+                            },
+                        }}
+                        buttonBorderColor={{
+                            light: "#c084fc",
+                            dark: "#4c1d95",
+                        }}
+                        shadowColor={{
+                            light: "rgb(168, 85, 247)",
+                            dark: "rgb(124, 58, 237)",
+                        }}
+                    />
                     <p className="input-hint">
                         <Shield size={10} />
                         Your conversations are private. Always consult a licensed lawyer for your specific case.

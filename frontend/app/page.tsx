@@ -1,6 +1,6 @@
-import ChatInterface from "@/components/ChatInterface";
+import NyayMitraApp from "@/components/NyayMitraApp";
 import "./globals.css";
 
 export default function Home() {
-    return <ChatInterface />;
+    return <NyayMitraApp />;
 }
